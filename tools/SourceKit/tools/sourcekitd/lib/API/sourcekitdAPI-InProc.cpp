@@ -69,8 +69,7 @@ public:
   virtual size_t getCount() const { return 0; }
 
   virtual sourcekitd_uid_t getUID() const { return nullptr; }
-  virtual Optional<int64_t> getInt64() const { return None; }
-  virtual Optional<StringRef> getString() const { return None; }
+  virtual Optional<int64_t> getInt64() const { return Optional<int64_t>(); }
   virtual const char *getCString() const { return nullptr; }
   virtual bool getBool() const { return false; }
 };
@@ -157,10 +156,6 @@ public:
 
   sourcekitd_variant_type_t getVariantType() const override {
     return SOURCEKITD_VARIANT_TYPE_STRING;
-  }
-
-  Optional<StringRef> getString() const override {
-    return Optional<StringRef>(Storage);
   }
 
   const char *getCString() const override {
@@ -675,10 +670,11 @@ sourcekitd_uid_t RequestDict::getUID(UIdent Key) {
 }
 
 Optional<StringRef> RequestDict::getString(UIdent Key) {
+  const char *CString = nullptr;
   if (auto Object = static_cast<SKDObject *>(Dict)->get(SKDUIDFromUIdent(Key))) {
-    return Object->getString();
+    CString = Object->getCString();
   }
-  return None;
+  return CString ? Optional<StringRef>(CString) : Optional<StringRef>();
 }
 
 Optional<RequestDict> RequestDict::getDictionary(SourceKit::UIdent Key) {
@@ -686,7 +682,7 @@ Optional<RequestDict> RequestDict::getDictionary(SourceKit::UIdent Key) {
   if (auto Object = static_cast<SKDObject *>(Dict)->get(SKDUIDFromUIdent(Key))) {
     DictObject = dyn_cast<SKDDictionary>(Object);
   }
-  return DictObject ? Optional<RequestDict>(RequestDict(DictObject)) : None;
+  return DictObject ? RequestDict(DictObject) : Optional<RequestDict>();
 }
 
 bool RequestDict::getStringArray(SourceKit::UIdent Key,
@@ -873,8 +869,8 @@ SKDVar_dictionary_get_uid(sourcekitd_variant_t dict, sourcekitd_uid_t key) {
 }
 
 static size_t SKDVar_string_get_length(sourcekitd_variant_t obj) {
-  auto String = SKD_OBJ(obj)->getString();
-  return String.hasValue() ? String->size() : 0;
+  auto CString = SKD_OBJ(obj)->getCString();
+  return CString ? strlen(CString) : 0;
 }
 
 static const char *SKDVar_string_get_ptr(sourcekitd_variant_t obj) {
