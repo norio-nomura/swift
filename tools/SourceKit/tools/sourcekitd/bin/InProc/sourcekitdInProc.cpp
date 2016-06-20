@@ -20,7 +20,6 @@
 
 // FIXME: Portability ?
 #include <Block.h>
-#include <dispatch/dispatch.h>
 
 #ifdef LLVM_ON_WIN32
 #include <windows.h>
@@ -102,16 +101,15 @@ void sourcekitd::set_interrupted_connection_handler(
 //===----------------------------------------------------------------------===//
 
 sourcekitd_response_t sourcekitd_send_request_sync(sourcekitd_object_t req) {
-  dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+  Semaphore sema(0);
 
   sourcekitd_response_t ReturnedResp;
   sourcekitd::handleRequest(req, [&](sourcekitd_response_t resp) {
     ReturnedResp = resp;
-    dispatch_semaphore_signal(sema);
+    sema.signal();
   });
 
-  dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-  dispatch_release(sema);
+  sema.wait();
   return ReturnedResp;
 }
 
