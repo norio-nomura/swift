@@ -23,6 +23,4 @@ add_sourcekit_library(sourcekitdAPI
   ${sourcekitdAPI_sources}
   DEPENDS
       SourceKitSupport SourceKitSwiftLang
-      # Clang dependencies, required by SourceKitSwiftLang
-      clangFormat clangToolingCore clangDriver
 )
