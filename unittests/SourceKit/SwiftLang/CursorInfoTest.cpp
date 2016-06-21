@@ -13,6 +13,7 @@
 #include "SourceKit/Core/Context.h"
 #include "SourceKit/Core/LangSupport.h"
 #include "SourceKit/Core/NotificationCenter.h"
+#include "SourceKit/SwiftLang/Factory.h"
 #include "llvm/Support/MemoryBuffer.h"
 #include "llvm/Support/Path.h"
 #include "gtest/gtest.h"
@@ -96,7 +97,7 @@ struct TestCursorInfo {
 };
 
 class CursorInfoTest : public ::testing::Test {
-  SourceKit::Context Ctx{ getRuntimeLibPath() };
+  SourceKit::Context Ctx{ getRuntimeLibPath(), SourceKit::createSwiftLangSupport };
   std::atomic<int> NumTasks;
   dispatch_semaphore_t TaskSema = nullptr;
 
