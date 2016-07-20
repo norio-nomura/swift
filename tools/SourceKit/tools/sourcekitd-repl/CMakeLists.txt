@@ -9,7 +9,7 @@ if(HAVE_UNICODE_LIBEDIT)
   endif()
 
   if(SOURCEKIT_NEED_EXPLICIT_LIBDISPATCH)
-    set(SOURCEKITD_REPL_DEPEND ${SOURCEKITD_REPL_DEPEND} dispatch swiftCore)
+    set(SOURCEKITD_REPL_DEPEND ${SOURCEKITD_REPL_DEPEND} dispatch swiftCore swiftSwiftOnoneSupport)
   endif()
 
   add_sourcekit_executable(sourcekitd-repl
