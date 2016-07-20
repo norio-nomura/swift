@@ -517,6 +517,10 @@ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
   set_target_properties(swiftCore PROPERTIES
                         IMPORTED_LOCATION ${SOURCEKIT_BINARY_DIR}/lib/swift/linux/libswiftCore.so)
 
+  add_library(swiftSwiftOnoneSupport SHARED IMPORTED)
+  set_target_properties(swiftSwiftOnoneSupport PROPERTIES
+                        IMPORTED_LOCATION ${SOURCEKIT_BINARY_DIR}/lib/swift/linux/libswiftSwiftOnoneSupport.so)
+
   set(SOURCEKIT_NEED_EXPLICIT_LIBDISPATCH TRUE)
 endif()
 
