@@ -8,6 +8,7 @@ struct S1 {}
 
 func foo(x: FooStruct1) -> S1 {}
 
+// XFAIL: linux
 // RUN: rm -rf %t
 // RUN: mkdir %t
 // RUN: %swiftc_driver -emit-module -o %t/FooSwiftModule.swiftmodule %S/Inputs/FooSwiftModule.swift
