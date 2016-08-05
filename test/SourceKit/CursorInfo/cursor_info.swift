@@ -198,6 +198,7 @@ typealias MyVoid = ()
 
 func rethrowingFunction1(_: (Int) throws -> Void) rethrows -> Void {}
 
+// XFAIL: linux
 // RUN: rm -rf %t.tmp
 // RUN: mkdir %t.tmp
 // RUN: %swiftc_driver -emit-module -o %t.tmp/FooSwiftModule.swiftmodule %S/Inputs/FooSwiftModule.swift
