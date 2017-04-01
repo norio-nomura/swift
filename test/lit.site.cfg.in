@@ -77,6 +77,9 @@ if "@CMAKE_GENERATOR@" == "Xcode":
     config.environment['PATH'] = \
       os.path.pathsep.join((xcode_bin_dir, config.environment['PATH']))
 
+if "@SWIFT_ENABLE_SOURCEKIT_TESTS@" == "TRUE":
+    config.available_features.add('sourcekit')
+
 if "@LLDB_ENABLE@" == "TRUE":
     config.available_features.add('lldb')
     for root, dirs, files in os.walk("@LLDB_BUILD_DIR@"):
