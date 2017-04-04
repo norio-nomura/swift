@@ -206,6 +206,7 @@ func convention5(_: @convention(method) ()->()) {}
 func convention6(_: @convention(objc_method) ()->()) {}
 func convention7(_: @convention(witness_method) ()->()) {}
 
+// REQUIRES: objc_interop
 // RUN: rm -rf %t.tmp
 // RUN: mkdir -p %t.tmp
 // RUN: %swiftc_driver -emit-module -o %t.tmp/FooSwiftModule.swiftmodule %S/Inputs/FooSwiftModule.swift
