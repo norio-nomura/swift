@@ -719,8 +719,9 @@ private:
 };
 }
 
-static bool makeParserAST(CompilerInstance &CI, StringRef Text) {
-  CompilerInvocation Invocation;
+static bool makeParserAST(CompilerInstance &CI, StringRef Text,
+                          CompilerInvocation Invocation) {
+  Invocation.clearInputs();
   Invocation.setModuleName("main");
   Invocation.setInputKind(InputFileKind::IFK_Swift);
 
@@ -931,7 +932,7 @@ static bool reportModuleDocInfo(CompilerInvocation Invocation,
     return true;
 
   CompilerInstance ParseCI;
-  if (makeParserAST(ParseCI, IFaceInfo.Text))
+  if (makeParserAST(ParseCI, IFaceInfo.Text, Invocation))
     return true;
   addParameterEntities(ParseCI, IFaceInfo);
 
